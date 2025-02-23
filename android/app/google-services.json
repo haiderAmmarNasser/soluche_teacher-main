@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "349397349677",
+    "project_id": "solucheprof",
+    "storage_bucket": "com.soluche.prof"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349397349677:android:53c2451124e912acc80fa4",
+        "android_client_info": {
+          "package_name": "com.soluche.prof"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAok98kvsh_9zdw2NGrLqiSTtSu-Skd5W8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
