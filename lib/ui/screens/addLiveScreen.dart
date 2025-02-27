@@ -211,6 +211,7 @@ class _AddLiveScreenState extends State<AddLiveScreen> {
       );
       return;
     }
+
     if (dueDate == null || dueFromTime == null || dueToTime == null) {
       showErrorMessage(
         UiUtils.getTranslatedLabel(context, pleaseEnterAllFieldKey),
@@ -240,14 +241,19 @@ class _AddLiveScreenState extends State<AddLiveScreen> {
       );
       return;
     }
+    print("here322222222222222222222222222222222");
 
     context.read<CreateLiveCubit>().createLive(
-          subjectId: selectedSubjectId,
-          liveDescription: _liveDescriptionTextEditingController.text.trim(),
-          files: [],
-          date: DateFormat('yyyy-MM-dd').format(dueDate!).toString(),
-          fromTime: convertTime(dueFromTime!),
-          toTime: convertTime(dueToTime!),
+        subjectId: selectedSubjectId,
+        liveDescription: _liveDescriptionTextEditingController.text.trim(),
+        files: [],
+        date: DateFormat('yyyy-MM-dd').format(dueDate!).toString(),
+        fromTime: convertTime(dueFromTime!),
+        toTime: convertTime(dueToTime!),
+        hour: dueFromTime!.hour.toString(),
+        minute: dueFromTime!.minute.toString(),
+        endHour: dueToTime!.hour.toString(),
+        endMinute: dueToTime!.minute.toString(),
         );
   }
 
@@ -493,11 +499,23 @@ class _AddLiveScreenState extends State<AddLiveScreen> {
                       builder: (context, state) {
                         return CustomRoundedButton(
                           onTap: () {
-                            // print("ddsfsdfdsf")
+                            print("here we create a meeting");
                             FocusManager.instance.primaryFocus?.unfocus();
                             if (state is CreateLiveInProgress) {
                               return;
                             }
+                            print(formatDateTimeToUTC(
+                                DateFormat('yyyy-MM-dd')
+                                    .format(dueDate!)
+                                    .toString(),
+                                dueFromTime!.hour.toString(),
+                                dueFromTime!.minute.toString()));
+
+                            print(calculateDurationInMinutes(
+                                dueFromTime!.hour.toString(),
+                                dueFromTime!.minute.toString(),
+                                dueToTime!.hour.toString(),
+                                dueToTime!.minute.toString()));
                             createLive();
                           },
                           backgroundColor:
@@ -524,7 +542,8 @@ class _AddLiveScreenState extends State<AddLiveScreen> {
                       showBorder: false,
                       onTap: () {
                         var algiers = tz.getLocation('Africa/Algiers');
-                        var now = tz.TZDateTime.now(algiers); // TODO: get the current time
+                        var now = tz.TZDateTime.now(
+                            algiers); // TODO: get the current time
                         if (widget.live?.isNow == true &&
                             enterLive(
                                 widget.live!.date!,

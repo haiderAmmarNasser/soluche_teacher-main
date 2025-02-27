@@ -343,5 +343,6 @@
   "changeLiveStatus": "تغيير حالة البث المباشر",
   "unableToDeleteLive": "غير قادر على حذف البث المباشر",
   "unableToChangeLiveStatus": "غير قادر على تغيير حالة البث المباشر",
-  "liveStatus": "حالة البث المباشر"
+  "liveStatus": "حالة البث المباشر",
+  "start":"ابدأ البث المباشر"
 }

@@ -7,6 +7,7 @@ import 'package:eschool_teacher/data/models/classSectionDetails.dart';
 import 'package:eschool_teacher/data/models/live.dart';
 import 'package:eschool_teacher/data/models/subject.dart';
 import 'package:eschool_teacher/data/repositories/live_repository.dart';
+import 'package:eschool_teacher/ui/styles/colors.dart';
 import 'package:eschool_teacher/ui/widgets/confirmDeleteDialog.dart';
 import 'package:eschool_teacher/ui/widgets/customShimmerContainer.dart';
 import 'package:eschool_teacher/ui/widgets/deleteButton.dart';
@@ -24,10 +25,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class LivesContainer extends StatelessWidget {
   final ClassSectionDetails classSectionDetails;
   final Subject subject;
+  // final VoidCallback startMeeting;
   const LivesContainer({
     super.key,
     required this.classSectionDetails,
     required this.subject,
+    // required this.startMeeting
   });
 
   Widget _buildLessonDetailsShimmerContainer(BuildContext context) {
@@ -317,6 +320,29 @@ class LivesContainer extends StatelessWidget {
                                     textAlign: TextAlign.start,
                                   ),
                                 ],
+                              ),
+                              const SizedBox(height: 5),
+                              InkWell(
+                                onTap: () async {
+                                  print(live.id);
+                                  LiveRepository liveRepo = LiveRepository();
+                               
+
+                                  await liveRepo.startMeet(" met descrpition ",
+                                      live.id.toString());
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 45,
+                                  decoration: BoxDecoration(
+                                      color: primaryColor,
+                                      borderRadius: BorderRadius.circular(14)),
+                                  child: Icon(
+                                    Icons.live_tv_sharp,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
                               ),
                             ],
                           ),

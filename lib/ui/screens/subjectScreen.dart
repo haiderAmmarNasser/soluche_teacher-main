@@ -2,6 +2,8 @@ import 'package:eschool_teacher/app/routes.dart';
 import 'package:eschool_teacher/cubits/announcementsCubit.dart';
 import 'package:eschool_teacher/cubits/lessonsCubit.dart';
 import 'package:eschool_teacher/cubits/livesCubit.dart';
+import 'package:eschool_teacher/cubits/myClassesCubit.dart';
+import 'package:eschool_teacher/cubits/subjectsOfClassSectionCubit.dart';
 import 'package:eschool_teacher/data/models/classSectionDetails.dart';
 import 'package:eschool_teacher/data/models/subject.dart';
 import 'package:eschool_teacher/data/repositories/announcementRepository.dart';
@@ -10,11 +12,13 @@ import 'package:eschool_teacher/data/repositories/live_repository.dart';
 import 'package:eschool_teacher/ui/widgets/announcementsContainer.dart';
 import 'package:eschool_teacher/ui/widgets/appBarSubTitleContainer.dart';
 import 'package:eschool_teacher/ui/widgets/appBarTitleContainer.dart';
+import 'package:eschool_teacher/ui/widgets/customDropDownMenu.dart';
 import 'package:eschool_teacher/ui/widgets/customFloatingActionButton.dart';
 import 'package:eschool_teacher/ui/widgets/customRefreshIndicator.dart';
 import 'package:eschool_teacher/ui/widgets/customTabBarContainer.dart';
 import 'package:eschool_teacher/ui/widgets/lessonsContainer.dart';
 import 'package:eschool_teacher/ui/widgets/lives_container.dart';
+import 'package:eschool_teacher/ui/widgets/noDataContainer.dart';
 import 'package:eschool_teacher/ui/widgets/screenTopBackgroundContainer.dart';
 import 'package:eschool_teacher/ui/widgets/svgButton.dart';
 import 'package:eschool_teacher/ui/widgets/tabBarBackgroundContainer.dart';
@@ -287,23 +291,30 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 ),
                 children: [
                   _selectedTabTitle == chaptersKey
-                      ?
-                  
-                       LessonsContainer(
+                      ? LessonsContainer(
                           classSectionDetails: widget.classSectionDetails,
                           subject: widget.subject,
                         )
                       : _selectedTabTitle == announcementKey
-                          ?
-                           AnnouncementsContainer(
+                          ? AnnouncementsContainer(
                               classSectionDetails: widget.classSectionDetails,
                               subject: widget.subject,
                             )
-                          : 
-                          LivesContainer(
-                              subject: widget.subject,
-                              classSectionDetails: widget.classSectionDetails,
-                            )
+                          : BlocBuilder<LivesCubit, LivesState>(
+                              builder: (context, state) {
+                              if (state is LivesFetchSuccess) {
+                                return state.lives.isEmpty
+                                    ? const NoDataContainer(
+                                        titleKey: noLivesKey)
+                                    : LivesContainer(
+                                        subject: widget.subject,
+                                        classSectionDetails:
+                                            widget.classSectionDetails,
+                                     
+                                      );
+                              }
+                              return Container();
+                            }),
                 ],
               ),
             ),

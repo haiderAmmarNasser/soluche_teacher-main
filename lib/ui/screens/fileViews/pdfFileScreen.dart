@@ -9,7 +9,7 @@ import 'package:eschool_teacher/utils/uiUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+// import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PdfFileScreen extends StatefulWidget {
@@ -146,13 +146,14 @@ class _PdfFileScreenState extends State<PdfFileScreen> {
                     ),
                   );
                 } else if (state is PdfFileSaveSuccess) {
-                  return PDFView(
-                    filePath: state.pdfFilePath,
-                    enableSwipe: true,
-                    swipeHorizontal: false,
-                    autoSpacing: true,
-                    pageFling: false,
-                  );
+                  return Container();
+                  // return PDFView(
+                  //   filePath: state.pdfFilePath,
+                  //   enableSwipe: true,
+                  //   swipeHorizontal: false,
+                  //   autoSpacing: true,
+                  //   pageFling: false,
+                  // );
                 } else {
                   return Center(
                     child: ErrorContainer(

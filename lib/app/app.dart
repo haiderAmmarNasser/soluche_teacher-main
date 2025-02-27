@@ -7,6 +7,7 @@ import 'package:eschool_teacher/cubits/appLocalizationCubit.dart';
 import 'package:eschool_teacher/cubits/authCubit.dart';
 import 'package:eschool_teacher/cubits/chat/chatUsersCubit.dart';
 import 'package:eschool_teacher/cubits/myClassesCubit.dart';
+import 'package:eschool_teacher/cubits/subjectsOfClassSectionCubit.dart';
 import 'package:flutter_zoom_meeting/zoom_options.dart';
 import 'package:eschool_teacher/data/repositories/authRepository.dart';
 import 'package:eschool_teacher/data/repositories/chatRepository.dart';
@@ -45,21 +46,18 @@ class MyHttpOverrides extends HttpOverrides {
 Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-   late ZoomOptions zoomOptions;
-  late ZoomView zoom;
-
   await dotenv.load(fileName: ".env");
   tz.initializeTimeZones();
- zoomOptions = ZoomOptions(
-      domain: "zoom.us",
-      // appKey: "YOUR_ZOOM_SDK_KEY", // Replace with your SDK Key
-      // appSecret: "YOUR_ZOOM_SDK_SECRET", // Replace with your SDK Secret
-    );
+//  zoomOptions = ZoomOptions(
+//       domain: "zoom.us",
+//       // appKey: "YOUR_ZOOM_SDK_KEY", // Replace with your SDK Key
+//       // appSecret: "YOUR_ZOOM_SDK_SECRET", // Replace with your SDK Secret
+//     );
 
-    zoom = ZoomView();
-    zoom.initZoom(zoomOptions).then((result) {
-      print("Zoom Initialized: $result");
-    });
+//     zoom = ZoomView();
+//     zoom.initZoom(zoomOptions).then((result) {
+//       print("Zoom Initialized: $result");
+//     });
 
 
 //  await FlutterZoomMeeting.init(
@@ -119,6 +117,9 @@ class _MyAppState extends State<MyApp> {
     );
     return MultiBlocProvider(
       providers: [
+        BlocProvider<SubjectsOfClassSectionCubit>(
+              create: (_) => SubjectsOfClassSectionCubit(TeacherRepository()),
+            ),
         BlocProvider<AppConfigurationCubit>(
           create: (_) => AppConfigurationCubit(SystemRepository()),
         ),

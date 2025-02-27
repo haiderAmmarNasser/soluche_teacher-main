@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -6,6 +7,7 @@ import 'package:eschool_teacher/utils/errorMessageKeysAndCodes.dart';
 import 'package:eschool_teacher/utils/hiveBoxKeys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class ApiException implements Exception {
   String errorMessage;
@@ -20,6 +22,47 @@ class ApiException implements Exception {
 
 // ignore: avoid_classes_with_only_static_members
 class Api {
+
+//   Future postData(
+//   String uri,
+//   Map body,
+//   Map<String, String> headers,
+//   bool toSaveToken,
+//   bool withData,
+// ) async {
+//   try {
+//       var url = Uri.parse(uri);
+//       var response = await http.post(url, body: body, headers: headers);
+
+//       print("Response Status: ${response.statusCode}");
+//       print("Response Body: ${response.body}");
+
+//       Map<String, dynamic> decodedResponse;
+//       try {
+//         decodedResponse = json.decode(response.body);
+//       } catch (e) {
+//         print("JSON Decode Error: $e");
+//         return Left(StatusClasses.customError("Invalid response format from server."));
+//       }
+
+//       if (response.statusCode == 200 || response.statusCode == 201) {
+//         var data = withData ? response.body : decodedResponse['message'];
+//         return Right(data);
+//       } else {
+//         var message = decodedResponse['message'] ?? 'An error occurred';
+//         print("Error Message: $message");
+//         return Left(StatusClasses.customError(message));
+//       }
+
+//   } on SocketException catch (e) {
+//     print("Socket Exception: $e");
+//     return Left(StatusClasses.customError("Network error. Please try again."));
+//   } catch (e) {
+//     print("General Exception: $e");
+//     return Left(StatusClasses.customError("An unexpected error occurred."));
+//   }
+// }
+
   static Map<String, dynamic> headers() {
     final String jwtToken = Hive.box(authBoxKey).get(jwtTokenKey) ?? "";
     if (kDebugMode) {
@@ -109,7 +152,6 @@ class Api {
   static String addLeaveRequest = "${databaseUrl}teacher/apply-leave";
   static String getLeaves = "${databaseUrl}teacher/get-leave-list";
   static String deleteLeave = "${databaseUrl}teacher/delete-leave";
-
   //Api methods
   static Future<Map<String, dynamic>> post({
     required Map<String, dynamic> body,
@@ -137,6 +179,9 @@ class Api {
         onSendProgress: onSendProgress,
         options: useAuthToken ? Options(headers: headers()) : null,
       );
+      print("-----------------");
+      print(response.statusCode);
+      print("--------------------");
       if (kDebugMode) {
         print("Response: ${response.data}");
       }
